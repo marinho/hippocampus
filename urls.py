@@ -1,17 +1,25 @@
 from django.conf.urls.defaults import *
 
+from test_app.models import Widget
+
+id_dict = {
+    'queryset': Widget.objects.all(),
+    'track': True,
+    'model': Widget,
+}
+
+slug_dict = {
+    'queryset': Widget.objects.all(),
+    'track': True,
+    'model': Widget,
+    'slug_field': 'slug'
+}
+
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^django_hippocampus/', include('django_hippocampus.foo.urls')),
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # (r'^admin/', include(admin.site.urls)),
+    (r'^widgets/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_list', id_dict),
+    (r'^widgets/(?P<slug>[\w-]+)/$', 'django.views.generic.list_detail.object_list', slug_dict),
 )

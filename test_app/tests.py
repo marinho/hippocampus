@@ -1,23 +1,29 @@
-"""
-This file demonstrates two different styles of tests (one doctest and one
-unittest). These will both pass when you run "manage.py test".
-
-Replace these with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
+from test_app.models import Widget
+from hippocampus.models import *
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+class LogVisitTestCase(TestCase):
+    def setUp(self):
+        pass
 
->>> 1 + 1 == 2
-True
-"""}
+    def test_track_with_object_id(self):
+        self.fail()
 
+    def test_track_with_slug(self):
+        self.fail()
+
+    def test_no_track_with_ip_filter(self):
+        self.fail()
+
+    def test_detect_ip_address(self):
+        self.fail()
+
+    def test_detect_language(self):
+        self.fail()
+
+    def test_unique_visits_vs_total(self):
+        self.fail()
+
+    def test_obtain_geo_data(self):
+        self.fail()
