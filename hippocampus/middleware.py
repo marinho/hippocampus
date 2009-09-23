@@ -2,6 +2,9 @@ from hippocampus.models import *
 
 class HippocampusMiddleware(object):
     def process_view(self, request, view_func, view_args, view_kwargs):
+        track = view_kwargs.pop('track', None)
+        if track is None:
+            return None
         model = view_kwargs.pop('hippo_model', None)
         slug = view_kwargs.pop('slug', None)
         slug_field = view_kwargs.pop('slug_field', None)
