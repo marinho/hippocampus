@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.db import models
@@ -12,14 +13,15 @@ class Visit(models.Model):
     city = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=2, blank=True)
     language = models.CharField(max_length=5)
-    timestamp = models.DateTimeField()
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey(blank=True, null=True)
+    enter = models.DateTimeField()
+    exit = models.DateTimeField(null=True, blank=True)
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.PositiveIntegerField(blank=True, null=True)
+    content_object = generic.GenericForeignKey()
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.timestamp = datetime.now()
+            self.enter = datetime.now()
         super(Visit, self).save(*args, **kwargs)
 
 

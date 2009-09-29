@@ -4,14 +4,12 @@ from test_app.models import Widget
 
 id_dict = {
     'queryset': Widget.objects.all(),
-    'track': True,
-    'model': Widget,
+    'hippocampus': Widget,
 }
 
 slug_dict = {
     'queryset': Widget.objects.all(),
-    'track': True,
-    'model': Widget,
+    'hippocampus': Widget,
     'slug_field': 'slug'
 }
 
@@ -20,6 +18,7 @@ slug_dict = {
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^widgets/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_list', id_dict),
-    (r'^widgets/(?P<slug>[\w-]+)/$', 'django.views.generic.list_detail.object_list', slug_dict),
+    (r'^widgets/(?P<object_id>\d+)/$', 'django.views.generic.list_detail.object_detail', id_dict),
+    (r'^widgets/(?P<slug>[\w-]+)/$', 'django.views.generic.list_detail.object_detail', slug_dict),
+    (r'^hippocampus/', include('hippocampus.urls')),
 )
