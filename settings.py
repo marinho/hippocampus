@@ -80,3 +80,5 @@ INSTALLED_APPS = (
     'hippocampus',
     'test_app'
 )
+
+GEOIP_DATABASE_FILE = '/usr/local/share/GeoIP/GeoLiteCity.dat'

@@ -3,6 +3,11 @@ from django.conf import settings
 from hippocampus import HIPPOCAMPUS_COOKIE_NAME
 from hippocampus.models import *
 
+try:
+    import GeoIP
+except ImportError:
+    GeoIP = None
+
 class HippocampusMiddleware(object):
     def process_view(self, request, view_func, view_args, view_kwargs):
         model = view_kwargs.pop('hippocampus', None)
@@ -27,5 +32,8 @@ class HippocampusMiddleware(object):
         print referer
         visit = Visit(cookie_id=cookie_id, ip_address=ip_address, referer=referer)
         visit.content_object = object
+        if GeoIP:
+            gi = GeoIP.open(settings.GEOIP_DATABASE_FILE, GeoIP.GEOIP_STANDARD)
+            visit.country = gi.country_code_by_addr(ip_address) or ''
         visit.save()
         return None
