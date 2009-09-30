@@ -7,11 +7,10 @@ from django.db import models
 
 
 class Visit(models.Model):
-    session_key = models.CharField(max_length=255)
+    cookie_id = models.CharField(max_length=255)
     ip_address = models.IPAddressField(blank=True)
     referer = models.URLField(blank=True)
-    city = models.CharField(max_length=255, blank=True)
-    country = models.CharField(max_length=2, blank=True)
+    country = models.CharField(max_length=2, blank=True, default='')
     language = models.CharField(max_length=5)
     enter = models.DateTimeField()
     exit = models.DateTimeField(null=True, blank=True)

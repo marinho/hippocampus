@@ -1,3 +1,5 @@
+// global variable for reference object in setTimeout on method
+var hc;
 (function () {
     var cname = "{{ cookie_name }}", cval = "{{ cookie_val }}", logExitUrl = "{{ log_exit_url }}";
     Hippocampus = function (cookieName, cookieVal) {
@@ -11,9 +13,7 @@
                 this.createCookie(this.cookieName, this.cookieVal);
                 this.track('.');
             }
-            window.onbeforeunload = function () {
-                this.track(logExitUrl);
-            };
+            this.ping();
         },
 
         createCookie: function(name, value) {
@@ -52,6 +52,10 @@
                 xhr.open('GET', url, true);
                 xhr.send(null);
             }
+        },
+
+        ping: function() {
+            setInterval('hc.track("' + logExitUrl + '")', 15000);
         }
     };
     hc = new Hippocampus("{{ cookie_name }}", "{{ cookie_val }}");

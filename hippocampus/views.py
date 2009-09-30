@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.http import HttpRequest
+from django.http import HttpResponse
 from hippocampus import HIPPOCAMPUS_COOKIE_NAME
 from hippocampus.models import Visit
 
@@ -9,12 +9,11 @@ def log_exit(request):
     if cookie_id is not None:
         try:
             last_visit = Visit.objects.filter(
-                cookie_id=cookie_id, exit__isnull=True
-            ).orderby('-enter')[0]
+                cookie_id=cookie_id).order_by('-enter')[0]
         except IndexError:
             pass
         else:
             last_visit.exit = datetime.now()
             last_visit.save()
-    return HttpRequest('')
+    return HttpResponse('')
     
