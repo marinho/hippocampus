@@ -14,6 +14,8 @@ class Visit(models.Model):
     language = models.CharField(max_length=5)
     enter = models.DateTimeField()
     exit = models.DateTimeField(null=True, blank=True)
+    url = models.URLField()
+    exit_url = models.URLField(blank=True, default='')
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.PositiveIntegerField(blank=True, null=True)
     content_object = generic.GenericForeignKey()

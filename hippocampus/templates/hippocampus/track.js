@@ -14,6 +14,7 @@ var hc;
                 this.track('.');
             }
             this.ping();
+            this.bindOutbound();
         },
 
         createCookie: function(name, value) {
@@ -47,15 +48,33 @@ var hc;
             return null;
         },
 
-        track: function(url) {
+        track: function(url, async) {
+            if (arguments.length == 1) {
+                async = true;
+            }
             if (xhr = this.getXHR()) {
-                xhr.open('GET', url, true);
+                xhr.open('GET', url, async);
                 xhr.send(null);
             }
+
         },
 
         ping: function() {
             setInterval('hc.track("' + logExitUrl + '")', 15000);
+        },
+
+        bindOutbound: function () {
+            _hc = this;
+            links = document.getElementsByTagName("a");
+            for (i = 0; i < links.length; i++) {
+                elem = links[i];
+                if (elem.className.match("hippocampus-outbound")) {
+                    elem.onclick  = function () {
+                        targetUrl = this.href;
+                        _hc.track(logExitUrl + "?outbound=" + targetUrl, false);
+                    };
+                }
+            }
         }
     };
     hc = new Hippocampus("{{ cookie_name }}", "{{ cookie_val }}");

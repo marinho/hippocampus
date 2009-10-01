@@ -14,6 +14,7 @@ def log_exit(request):
             pass
         else:
             last_visit.exit = datetime.now()
+            last_visit.exit_url = request.GET.get('outbound', '')
             last_visit.save()
     return HttpResponse('')
     
