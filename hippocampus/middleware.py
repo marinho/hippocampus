@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.utils.translation import get_language_from_request
 
 from hippocampus import HIPPOCAMPUS_COOKIE_NAME
 from hippocampus.models import *
@@ -29,9 +30,9 @@ class HippocampusMiddleware(object):
         else:
             object = model.objects.get(**{slug_field: slug})
         referer = request.META.get('HTTP_REFERER', '')
-        print referer
         visit = Visit(cookie_id=cookie_id, ip_address=ip_address, referer=referer)
         visit.content_object = object
+        visit.language = get_language_from_request(request)
         if GeoIP:
             gi = GeoIP.open(settings.GEOIP_DATABASE_FILE, GeoIP.GEOIP_STANDARD)
             visit.country = gi.country_code_by_addr(ip_address) or ''
