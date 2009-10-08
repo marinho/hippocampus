@@ -33,6 +33,7 @@ class HippocampusMiddleware(object):
         visit = Visit(cookie_id=cookie_id, ip_address=ip_address, referer=referer)
         visit.content_object = object
         visit.language = get_language_from_request(request)
+        visit.url = request.path
         if GeoIP:
             gi = GeoIP.open(settings.GEOIP_DATABASE_FILE, GeoIP.GEOIP_STANDARD)
             visit.country = gi.country_code_by_addr(ip_address) or ''
