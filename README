@@ -1,0 +1,49 @@
+Hippocampus provides drop-in visitor tracking for "object-detail" oriented
+pages in Django applications.  It aims to provide simple analytics back to
+individual users of a site where users or their products have dedicated pages,
+eliminating the need to write an API interface for another analytics service.
+
+It also forces developers to type the word "hippocampus" a minimum of seven
+times.
+
+Installation
+------------
+
+Clone the Hippocampus repository on Github
+(http://github.com/olifantworkshop/hippocampus) and put the hippocampus app
+directory on your PYTHONPATH.
+
+Getting Started
+---------------
+
+In your project's settings.py, add ``hippocampus`` to your INSTALLED_APPS and
+``hippocampus.middleware.HippocampusMiddleware`` to your MIDDLEWARE_CLASSES,
+after the session and i18n middlewares.  Be sure to run ``manage.py syncdb``.
+
+Include ``hippocampus.urls`` somewhere in your URLconf.
+
+In the appropriate template(s), add the following snippet::
+
+    {% load hippocampus_js %}
+    {% hippocampus_script %}
+
+Now, in your URLconf, edit the dictionary of arguments that is given to the
+request to include a ``hippocampus`` key with a value of the model instance
+that you want to track::
+
+    url(r'^widgets/(?P<object_id>\d+)/$', func, {'hippocampus': Widget},
+    'widget_detail')
+
+Your regular expression must have a named pattern for either ``object_id`` or
+``slug``.  If you use ``slug`` and the name of the slug field on the model is
+not ``slug``, you additionally need to define ``slug_field`` in the arguments
+dictionary.
+
+Optional settings
+-----------------
+
+Hippocampus supports IP address geolocation using MaxMind's GeoIP library and
+database. Follow the instructions on the MaxMind website for installing the
+database and Python library, and then add the absolute path as
+``GEOIP_DATABASE_FILE`` to settings.py.
+
