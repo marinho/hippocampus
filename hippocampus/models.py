@@ -9,7 +9,7 @@ from django.db import models
 class Visit(models.Model):
     cookie_id = models.CharField(max_length=255)
     ip_address = models.IPAddressField(blank=True)
-    referer = models.URLField(blank=True)
+    referer = models.TextField(blank=True)
     country = models.CharField(max_length=2, blank=True, default='')
     language = models.CharField(max_length=5)
     enter = models.DateTimeField()
