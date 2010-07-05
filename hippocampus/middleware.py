@@ -18,7 +18,7 @@ class HippocampusMiddleware(object):
         if cookie_id is None:
             return None
         slug = view_kwargs.get('slug', None)
-        slug_field = view_kwargs.get('slug_field', None)
+        slug_field = view_kwargs.get('slug_field', 'slug')
         object_id = view_kwargs.get('object_id', None)
         if not (model and ((slug and slug_field) or object_id)):
             return None
