@@ -25,13 +25,16 @@ class HippocampusMiddleware(object):
         ip_address = request.META.get('REMOTE_ADDR')
         if ip_address in [filter.ip_address for filter in IPFilter.objects.all()]:
             return None
-        if object_id is not None:
-            object = model.objects.get(id=object_id)
-        else:
-            object = model.objects.get(**{slug_field: slug})
+        try:
+            if object_id is not None:
+                obj = model.objects.get(id=object_id)
+            else:
+                obj = model.objects.get(**{slug_field: slug})
+        except model.DoesNotExist:
+            return None
         referer = request.META.get('HTTP_REFERER', '')
         visit = Visit(cookie_id=cookie_id, ip_address=ip_address, referer=referer)
-        visit.content_object = object
+        visit.content_object = obj
         visit.language = get_language_from_request(request)
         visit.url = request.path
         if GeoIP:
